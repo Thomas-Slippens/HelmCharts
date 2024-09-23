@@ -1,0 +1,119 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "authtokenbroker-chart.fullname" . }}
+  labels:
+    app: {{ include "authtokenbroker-chart.name" . }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ include "authtokenbroker-chart.name" . }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "authtokenbroker-chart.name" . }}
+    spec:
+      nodeSelector: 
+        kubernetes.io/arch: amd64
+      containers:
+        - name: authtokenbroker
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "200m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+          # readinessProbe:
+          #   httpGet:
+          #     path: /api/health
+          #     port: 80
+          #   initialDelaySeconds: 5
+          #   periodSeconds: 10
+          #   timeoutSeconds: 1
+          #   failureThreshold: 3
+          #   successThreshold: 1 
+          # livenessProbe:
+          #   httpGet:
+          #     path: /api/health
+          #     port: 80
+          #   initialDelaySeconds: 5
+          #   periodSeconds: 10
+          #   timeoutSeconds: 1
+          #   failureThreshold: 3
+          #   successThreshold: 1  
+          env:
+            - name: APPINSIGHTS_INSTRUMENTATIONKEY
+              valueFrom:
+                configMapKeyRef:
+                  name: global-config
+                  key: APPINSIGHTS_INSTRUMENTATIONKEY
+            - name: APPLICATIONINSIGHTS_CONNECTION_STRING
+              valueFrom:
+                configMapKeyRef:
+                  name: global-config
+                  key: APPLICATIONINSIGHTS_CONNECTION_STRING
+            - name: AzurWebJobsStorage
+              valueFrom:
+                configMapKeyRef:
+                  name: global-config
+                  key: AzurWebJobsStorage   
+            - name: CosmosCollectionId
+              valueFrom:
+                configMapKeyRef:
+                  name: global-config
+                  key: CosmosCollectionId  
+            - name: CosmosDatabaseId
+              valueFrom:
+                configMapKeyRef:
+                  name: global-config
+                  key: CosmosDatabaseId  
+            - name: CosmosKey
+              valueFrom:
+                configMapKeyRef:
+                  name: global-config
+                  key: CosmosKey  
+            - name: CosmosUrl
+              valueFrom:
+                configMapKeyRef:
+                  name: global-config
+                  key: CosmosUrl  
+            - name: FUNCTIONS_EXTENSION_VERSION
+              valueFrom:
+                configMapKeyRef:
+                  name: global-config
+                  key: FUNCTIONS_EXTENSION_VERSION
+            - name: FUNCTIONS_INPROC_NET8_ENABLED
+              valueFrom:
+                configMapKeyRef:
+                  name: global-config
+                  key: FUNCTIONS_INPROC_NET8_ENABLED
+            - name: FUNCTIONS_WORKER_RUNTIME
+              valueFrom:
+                configMapKeyRef:
+                  name: global-config
+                  key: FUNCTIONS_WORKER_RUNTIME
+            - name: MICROSOFT_PROVIDER_AUTHENTICATION_SECRET
+              valueFrom:
+                configMapKeyRef:
+                  name: global-config
+                  key: MICROSOFT_PROVIDER_AUTHENTICATION_SECRET
+            - name: WEBSITE_AUTH_AAD_ALLOWED_TENANTS
+              valueFrom:
+                configMapKeyRef:
+                  name: global-config
+                  key: WEBSITE_AUTH_AAD_ALLOWED_TENANTS
+            - name: WEBSITE_CONTENTAZUREFILECONNECTIONSTRING
+              valueFrom:
+                configMapKeyRef:
+                  name: global-config
+                  key: WEBSITE_CONTENTAZUREFILECONNECTIONSTRING
+            - name: WEBSITE_CONTENTSHARE
+              valueFrom:
+                configMapKeyRef:
+                  name: global-config
+                  key: WEBSITE_CONTENTSHARE                                    

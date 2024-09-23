@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "authtokenbroker-chart.fullname" . }}
+  labels:
+    {{ include "authtokenbroker-chart.labels" . }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: 80
+      targetPort: 80
+      protocol: TCP
+      name: http
+  selector:
+    app: {{ include "authtokenbroker-chart.name" . }}
+
+
+
