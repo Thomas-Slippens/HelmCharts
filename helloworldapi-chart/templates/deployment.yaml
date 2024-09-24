@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "helloworldapi-chart.fullname" . }}
+  labels:
+    app: {{ include "helloworldapi-chart.name" . }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ include "helloworldapi-chart.name" . }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "helloworldapi-chart.name" . }}
+    spec:
+      nodeSelector: 
+        kubernetes.io/arch: amd64
+      containers:
+        - name: helloworldapi
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "200m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+          # readinessProbe:
+          #   httpGet:
+          #     path: /api/health
+          #     port: 80
+          #   initialDelaySeconds: 5
+          #   periodSeconds: 10
+          #   timeoutSeconds: 1
+          #   failureThreshold: 3
+          #   successThreshold: 1 
+          # livenessProbe:
+          #   httpGet:
+          #     path: /api/health
+          #     port: 80
+          #   initialDelaySeconds: 5
+          #   periodSeconds: 10
+          #   timeoutSeconds: 1
+          #   failureThreshold: 3
+          #   successThreshold: 1  

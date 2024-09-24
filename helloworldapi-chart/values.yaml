@@ -1,0 +1,24 @@
+# Azure Function Docker Image
+image:
+  repository: thomascontainerregistry.azurecr.io/hello-world-api
+  tag: latest
+  pullPolicy: Always
+
+# Kubernetes Service settings
+service:
+  type: ClusterIP
+  port: 443
+  targetPort: 443
+  protocol: TCP
+
+# Ingress settings
+ingress:
+  enabled: true
+  hosts:
+    - host: "authorize.soulsseeker.com"
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+  tls:
+    - hosts:
+        - authorize.soulsseeker.com  # Replace with your domain
+      secretName: azure-function-tls-2
