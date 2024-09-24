@@ -13,7 +13,7 @@ spec:
     - host: {{ .host }}
       http:
         paths:
-          - path: /
+          - path: /api/health
             pathType: Prefix
             backend:
               service:
