@@ -20,6 +20,13 @@ spec:
                 name: {{ include "authtokenbroker-chart.fullname" $ }}
                 port:
                   number: 80 
+          - path: /WeatherForecast  # New path for the new pod
+            pathType: Prefix
+            backend:
+              service:
+                name: "helloworldapi-chart"  # Use the correct service name
+                port:
+                  number: 80  # Ensure the correct port is specified        
     {{- end }}
   {{- if .Values.ingress.tls }}
   tls:

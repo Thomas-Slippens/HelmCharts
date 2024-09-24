@@ -10,15 +10,3 @@ service:
   port: 443
   targetPort: 443
   protocol: TCP
-
-# Ingress settings
-ingress:
-  enabled: true
-  hosts:
-    - host: kubernetes.soulsseeker.com
-  annotations:
-    cert-manager.io/cluster-issuer: "letsencrypt-prod"
-  tls:
-    - hosts:
-        - kubernetes.soulsseeker.com
-      secretName: azure-function-tls-2
