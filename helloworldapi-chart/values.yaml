@@ -15,10 +15,10 @@ service:
 ingress:
   enabled: true
   hosts:
-    - host: "authorize.soulsseeker.com"
+    - host: kubernetes.soulsseeker.com
   annotations:
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
   tls:
     - hosts:
-        - authorize.soulsseeker.com  # Replace with your domain
+        - kubernetes.soulsseeker.com
       secretName: azure-function-tls-2
