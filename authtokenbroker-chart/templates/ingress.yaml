@@ -24,9 +24,9 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: "helloworldapi-chart"  # Use the correct service name
+                name: "helloworldapi-soulsseekerrelease-helloworldapi-chart"  # Use the correct service name
                 port:
-                  number: 8080  # Ensure the correct port is specified        
+                  number: 80  # Ensure the correct port is specified        
     {{- end }}
   {{- if .Values.ingress.tls }}
   tls:
