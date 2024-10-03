@@ -1,0 +1,22 @@
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-prod
+spec:
+  acme:
+    server: https://acme-v02.api.letsencrypt.org/directory
+    email: thomas.slippens@luminis.eu  # Your email here
+    privateKeySecretRef:
+      name: soulseekers-prod-private-key
+    solvers:
+    - dns01:
+        azureDNS:
+          clientID: "41bac43a-354e-43a0-b2e7-04ef3d2d2053"           # From the service principal creation step
+          clientSecretSecretRef:
+            name: azuredns-config-secret         # Name of the secret holding the client secret
+            key: client-secret
+          subscriptionID: "f717c997-2aa5-4098-8b77-aae87ad42cac" # Your Azure subscription ID
+          tenantID: "92b1c82c-10a6-40ec-8b2e-1e63eeb29438"             # Tenant ID from service principal
+          resourceGroupName: "accelerateThomas" # Resource group containing the DNS zone
+          hostedZoneName: "kubernetes.soulsseeker.com"          # Your DNS zone name (e.g., example.com)
+          environment: AzurePublicCloud
